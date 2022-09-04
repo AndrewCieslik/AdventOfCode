@@ -6,13 +6,13 @@ public class Day3 {
         String gamma ="";
         String epsilon = "";
         String[] bit;
-        int counterZero = 0;
-        int counterOne = 0;
 
         try{
             for(int i = 0; i < 12; i++) {
 
                 Scanner scanner=new Scanner(new File("diagnostic_report.txt"));
+                int counterZero = 0;
+                int counterOne = 0;
 
                 while(scanner.hasNextLine()){
                     String line = scanner.nextLine();
@@ -28,7 +28,10 @@ public class Day3 {
                     }
                     System.out.println("Zeros" + counterZero);
                     System.out.println("One" + counterOne);
+
                 }
+                System.out.println("########################################################################");
+
                 if(counterZero > counterOne){
                     gamma += "0";
                     epsilon += "1";
@@ -38,6 +41,7 @@ public class Day3 {
                     epsilon +="0";
                 }
             }
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

@@ -37,14 +37,18 @@ public class Day4 {
         } catch (FileNotFoundException e) {}
         return array;
     }
-    void bingo(List<String> list) throws FileNotFoundException {
-        File file = new File("day4test.txt");
+    String[][] bingo(List<String> list) throws FileNotFoundException {
+        File file = new File("day4.txt");
         Iterator iterator = list.iterator();
+        int whichArray = 0;
+        int winnerArray = 0;
+        int minIterations = 0;
+        String[][] minArray = new String[5][5];
         String[][] array = new String[5][5];
         Scanner scanner = new Scanner(file);
         scanner.nextLine();
-        scanner.nextLine();
-        //while(iterator.hasNext()) {
+        while(iterator.hasNext()) {
+            scanner.nextLine();
             for (int k = 0; k < 5; k++) {
                 String line = scanner.nextLine();
                 System.out.println(line);
@@ -55,51 +59,78 @@ public class Day4 {
                     //System.out.println(array[k][i]);
                 }
             }
-            int whichArray = 0;
             int x0 = 0;
             int x1 = 0;
             int x2 = 0;
             int x3 = 0;
             int x4 = 0;
-            for (int k = 0; k < list.size(); k++) {
+            boolean horizontalWasFound = false;
+            for (int z = 0; z < list.size(); z++) {
                 for (int i = 0; i < 5; i++) {
-                    if (list.get(k).equals(array[i][0])) {
+                    if (list.get(z).equals(array[i][0])) {
                         x0++;
                     }
-                    if (list.get(k).equals(array[i][1])) {
+                    if (list.get(z).equals(array[i][1])) {
                         x1++;
                     }
-                    if (list.get(k).equals(array[i][2])) {
+                    if (list.get(z).equals(array[i][2])) {
                         x2++;
                     }
-                    if (list.get(k).equals(array[i][3])) {
+                    if (list.get(z).equals(array[i][3])) {
                         x3++;
                     }
-                    if (list.get(k).equals(array[i][4])) {
+                    if (list.get(z).equals(array[i][4])) {
                         x4++;
                     }
                     if ((x0+x1+x2+x3+x4 == 5) && (x0 > 0 && x1 > 0 && x2 > 0 && x3 > 0 && x4 > 0)) {
-                                System.out.println("Bingo!" + "how fast(iteration):" + k + " number: " + list.get(k));
-                                System.out.println("Horizontal: " + x0 + " " + x1 + " " + x2 + " " + x3 + " " + x4);
-                                break;
+                        System.out.println("Bingo!" + "how fast(iteration):" + z + " number: " + list.get(z));
+                        System.out.println("Horizontal: " + x0 + " " + x1 + " " + x2 + " " + x3 + " " + x4);
+                        System.out.println("Array number: " + whichArray);
+                        horizontalWasFound = true;
+                        if(whichArray == 0){
+                            minIterations = z;
+                        }
+                        if (z < minIterations) {
+                            minIterations = z;
+                            minArray = array;
+                        }
+                        break;
                     }
                 }
+                if(horizontalWasFound == true){
+                    break;
+                }
                 if (x0 == 5 || x1 == 5 || x2 == 5 || x3 == 5 || x4 == 5){
-                        System.out.println("Bingo!" + "how fast(iteration):" + k + " number: " + list.get(k));
-                        System.out.println("Vertical: " + x0 + " " + x1 + " " + x2 + " " + x3 + " " + x4);
-                        break;
+                    System.out.println("Bingo!" + "how fast(iteration):" + z + " number: " + list.get(z));
+                    System.out.println("Vertical: " + x0 + " " + x1 + " " + x2 + " " + x3 + " " + x4);
+                    System.out.println("Array number: " + whichArray);
+                        if(whichArray == 0){
+                            minIterations = z;
+                        }
+                        if (z < minIterations) {
+                            minIterations = z;
+                            minArray = array;
+                        }
+                    break;
                 }
             }
-            System.out.println(whichArray);
             whichArray++;
-        //}
+            System.out.println("Fastest iteration: " + minIterations);
+        }
+        return minArray;
     }
-
+    void printDoubleArray(String[][] array){
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array.length; j++){
+                System.out.println("WINNER TABLE: " + array[i][j]);
+            }
+        }
+    }
     public static void main(String[] args) throws FileNotFoundException {
         Day4 advent = new Day4();
-        List<String> numbers = advent.numbersToList("day4test.txt");
+        List<String> numbers = advent.numbersToList("day4.txt");
         advent.bingo(numbers);
+        advent.printDoubleArray(advent.bingo(numbers));
         }
-
     }
 

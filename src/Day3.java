@@ -1,4 +1,5 @@
 import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -59,23 +60,23 @@ public class Day3 {
         arrayZeros.clear();
         arrayOnes.clear();
         Iterator iterator = array.iterator();
-            while (iterator.hasNext()) {
-                String line = (String) iterator.next();
-                bit = line.split("");
-                    if (bit[bitNumber].equals("0")) {
-                        countZeros++;
-                        arrayZeros.add(line);
-                    }
-                    if (bit[bitNumber].equals("1")) {
-                        countOnes++;
-                        arrayOnes.add(line);
-                    }
+        while (iterator.hasNext()) {
+            String line = (String) iterator.next();
+            bit = line.split("");
+            if (bit[bitNumber].equals("0")) {
+                countZeros++;
+                arrayZeros.add(line);
             }
-            if (countZeros > countOnes) {
-                array = arrayZeros;
-            } else {
-                array = arrayOnes;
+            if (bit[bitNumber].equals("1")) {
+                countOnes++;
+                arrayOnes.add(line);
             }
+        }
+        if (countZeros > countOnes) {
+            array = arrayZeros;
+        } else {
+            array = arrayOnes;
+        }
         if(array.size() != 1) {
             bitNumber++;
             oxygenGeneratorRating(array, bitNumber);
@@ -83,7 +84,7 @@ public class Day3 {
             System.out.println("Oxygen generator rating: " + Integer.parseInt(array.get(0), 2));
         }
         return array;
-}
+    }
 
     ArrayList<String> co2Scrubber(ArrayList<String> array, int bitNumber){
         ArrayList<String> arrayOnes = new ArrayList<>();
@@ -94,18 +95,18 @@ public class Day3 {
         arrayZeros.clear();
         arrayOnes.clear();
         Iterator iterator = array.iterator();
-            while (iterator.hasNext()) {
-                String line = (String) iterator.next();
-                bit = line.split("");
-                if (bit[bitNumber].equals("0")) {
-                    countZeros++;
-                    arrayZeros.add(line);
-                }
-                if (bit[bitNumber].equals("1")) {
-                    countOnes++;
-                    arrayOnes.add(line);
-                }
+        while (iterator.hasNext()) {
+            String line = (String) iterator.next();
+            bit = line.split("");
+            if (bit[bitNumber].equals("0")) {
+                countZeros++;
+                arrayZeros.add(line);
             }
+            if (bit[bitNumber].equals("1")) {
+                countOnes++;
+                arrayOnes.add(line);
+            }
+        }
         if (countOnes < countZeros) {
             array = arrayOnes;
         } else {

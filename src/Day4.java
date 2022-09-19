@@ -22,72 +22,87 @@ public class Day4 {
         } catch (FileNotFoundException e) {}
         return array;
     }
-    String[][] bingo(List<String> list) throws FileNotFoundException {
+    String[][] findWinnerArray(List<String> list) throws FileNotFoundException {
         File file = new File("day4.txt");
         Scanner scanner = new Scanner(file);
 
         String[][] winnerArray = new String[5][5];
         String[][] array = new String[5][5];
+        int fastestIterationAllArrays = list.size();
         scanner.nextLine();
-        scanner.nextLine();
-
-        for(int k = 0; k < 5; k++) {                           //write number to arrray
+        while(scanner.hasNextLine()) {
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+            for (int k = 0; k < 5; k++) {                           //write array in rows to array[][]
                 String line = scanner.nextLine();
                 int j = 0;
                 for (int i = 0; i < 5; i++) {
                     array[k][i] = "" + line.charAt(j) + line.charAt(j + 1);
                     j += 3;
                 }
-        }
-        int fastestIteration = list.size();
-        //check horizontal lines in array
-        for(int row = 0; row < 5; row++) {
-            int horizontalCounter = 0;
-            for (int i = 0; i < list.size(); i++) {             //take first number from list
-                for (int j = 0; j < 5; j++) {                   //is this number in row in position from 0 to 4?
-                    if (array[row][j].equals(list.get(i))) {
-                        horizontalCounter++;
-                        if (horizontalCounter == 5) {           //every number is different
-                            System.out.println("horyzontal, iteration: " + i + " last number: " + list.get(i));
-                            if(i < fastestIteration){
-                                fastestIteration = i;
+            }
+            int fastestIteration = list.size();
+            //check horizontal lines in array
+            for (int row = 0; row < 5; row++) {
+                int horizontalCounter = 0;
+                for (int i = 0; i < list.size(); i++) {             //take first number from list
+                    for (int j = 0; j < 5; j++) {                   //is this number in row in position from 0 to 4?
+                        if (array[row][j].equals(list.get(i))) {
+                            horizontalCounter++;
+                            System.out.println(array[row][j]);
+                            if (horizontalCounter == 5) {           //every number is different
+                                System.out.println("horyzontal, iteration: " + i + " last number: " + list.get(i));
+                                if (i < fastestIteration) {
+                                    fastestIteration = i;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        //check vertical lines in array
-        for(int column = 0; column < 5; column++) {
-            int verticalCounter = 0;
-            for (int i = 0; i < list.size(); i++) {             //take first number from list
-                for (int j = 0; j < 5; j++) {
-                    if (array[j][column].equals(list.get(i))) {
-                        verticalCounter++;
-                        if (verticalCounter == 5) {
-                            System.out.println("vertical, iteration: " + i + " last number: " + list.get(i));
-                            if(i < fastestIteration){
-                                fastestIteration = i;
+            //check vertical lines in array
+            for (int column = 0; column < 5; column++) {
+                int verticalCounter = 0;
+                for (int i = 0; i < list.size(); i++) {                  //take first number from list
+                    for (int j = 0; j < 5; j++) {
+                        if (array[j][column].equals(list.get(i))) {//is number in column?
+                            System.out.println(array[j][column]);
+                            verticalCounter++;
+                            if (verticalCounter == 5) {
+                                System.out.println("vertical, iteration: " + i + " last number: " + list.get(i));
+                                if (i < fastestIteration) {
+                                    fastestIteration = i;
+                                }
                             }
                         }
-
+                    }
+                }
+            }
+            System.out.println(fastestIteration);
+            if(fastestIteration < fastestIterationAllArrays){
+                fastestIterationAllArrays = fastestIteration;
+                for(int i = 0; i < 5; i++){
+                    for(int j = 0; j <5; j++){
+                        winnerArray[i][j] = array[i][j];
                     }
                 }
             }
         }
-        System.out.println(fastestIteration);
+        System.out.println("Fastest iteration in all arrays: " + fastestIterationAllArrays);
+        System.out.println("Bingo last number: " + list.get(fastestIterationAllArrays));
+        String lastNumber = list.get(fastestIterationAllArrays);
         return winnerArray;
     }
-    void printDoubleArray(String[][] array){
-        for(int j = 0; j < array.length; j++){
-            System.out.println("WINNER TABLE: " + array[0][j]);
-        }
+
+    void countWinningNumber(String[][] array, List<String> list){
+        //winning number is sum of non-bingo numbers in array * last bingo number
+
     }
     public static void main(String[] args) throws FileNotFoundException {
         Day4 advent = new Day4();
         List<String> numbers = advent.numbersToList("day4.txt");
-        advent.bingo(numbers);
-       // advent.printDoubleArray(advent.bingo(numbers));
+        String[][] winnerArray = advent.findWinnerArray(numbers);
     }
 }
 

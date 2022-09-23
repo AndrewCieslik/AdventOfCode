@@ -42,7 +42,7 @@ public class Day4 {
                     for (int j = 0; j < 5; j++) {                   //is this number in row in position from 0 to 4?
                         if (array[row][j].equals(list.get(i))) {
                             horizontalCounter++;
-                            System.out.println(array[row][j]);
+                            //System.out.println(array[row][j]);
                             if (horizontalCounter == 5) {           //every number is different
                                 System.out.println("horyzontal, iteration: " + i + " last number: " + list.get(i));
                                 if (i < fastestIteration) {
@@ -59,7 +59,7 @@ public class Day4 {
                 for (int i = 0; i < list.size(); i++) {                  //take first number from list
                     for (int j = 0; j < 5; j++) {
                         if (array[j][column].equals(list.get(i))) {//is number in column?
-                            System.out.println(array[j][column]);
+                            //System.out.println(array[j][column]);
                             verticalCounter++;
                             if (verticalCounter == 5) {
                                 System.out.println("vertical, iteration: " + i + " last number: " + list.get(i));
@@ -71,7 +71,7 @@ public class Day4 {
                     }
                 }
             }
-            System.out.println(fastestIteration);
+            //System.out.println(fastestIteration);
             if(fastestIteration < fastestIterationAllArrays){
                 fastestIterationAllArrays = fastestIteration;
                 for(int i = 0; i < 5; i++){
@@ -81,13 +81,14 @@ public class Day4 {
                 }
             }
         }
+        System.out.println();
         System.out.println("Fastest iteration in all arrays: " + fastestIterationAllArrays);
         System.out.println("Bingo last number: " + list.get(fastestIterationAllArrays));
         lastNumber = list.get(fastestIterationAllArrays);
         return winnerArray;
     }
     void countWinningNumber(String[][] array, List<String> list){
-        //winning number is sum of non-bingo numbers in array * last bingo number
+        //winning number is sum of non-bingo numbers in array multiply by last bingo number
         int sum = 0;
         String[][] nonBingoArray = new String[5][5];
         nonBingoArray = array.clone();
@@ -95,24 +96,23 @@ public class Day4 {
             for (int i = 0; i < array.length; i++) {
                 for (int j = 0; j < array.length; j++) {
                     if (array[i][j].equals(list.get(k))) {
-                        System.out.println("Bingo " + array[i][j]);
                         nonBingoArray[i][j] = "0";
                     }
                 }
             }
         }
+        System.out.print("Non-bingo array: ");
         for (int i = 0; i < nonBingoArray.length; i++) {
             for (int j = 0; j <nonBingoArray.length; j++) {
                 System.out.print(nonBingoArray[i][j] + " ");
-                //sum+=Integer.valueOf(nonBingoArray[i][j]);
+                String withoutSpaces = nonBingoArray[i][j].replace(" ","");
+                sum+=Integer.valueOf(withoutSpaces);
             }
         }
-        //System.out.println(Integer.parseInt(nonBingoArray[0][2]));
-
-        System.out.println("Sum: " + sum);
-
+        System.out.println();
+        System.out.println("Sum non-bingo numbers: " + sum);
         System.out.println("Last bingo number: " + lastNumber);
-//723
+        System.out.println("Winning number! (Sum * Last bingo number): " + sum * Integer.valueOf(lastNumber));
     }
     public static void main(String[] args) throws FileNotFoundException {
         Day4 advent = new Day4();

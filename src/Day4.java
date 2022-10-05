@@ -11,7 +11,9 @@ public class Day4 {
                 Scanner scanner = new Scanner(file);
                 String line = scanner.nextLine();
                 numbers = Arrays.asList(line.split("\\s*,\\s*"));
-            } catch (FileNotFoundException e) {}
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found");
+            }
             return numbers;
     }
     String[][] findWinnerArray(List<String> list) throws FileNotFoundException {
@@ -74,10 +76,9 @@ public class Day4 {
             //System.out.println(fastestIteration);
             if(fastestIteration < fastestIterationAllArrays){
                 fastestIterationAllArrays = fastestIteration;
+                //winnerArray = array.clone();
                 for(int i = 0; i < 5; i++){
-                    for(int j = 0; j <5; j++){
-                        winnerArray[i][j] = array[i][j];
-                    }
+                    System.arraycopy(array[i], 0, winnerArray[i], 0, 5);
                 }
             }
         }
@@ -90,7 +91,7 @@ public class Day4 {
     void countWinningNumber(String[][] array, List<String> list){
         //winning number is sum of non-bingo numbers in array multiply by last bingo number
         int sum = 0;
-        String[][] nonBingoArray = new String[5][5];
+        String[][] nonBingoArray;
         nonBingoArray = array.clone();
         for(int k = 0; k <= fastestIterationAllArrays; k++) {
             for (int i = 0; i < array.length; i++) {
@@ -102,17 +103,17 @@ public class Day4 {
             }
         }
         System.out.print("Non-bingo array: ");
-        for (int i = 0; i < nonBingoArray.length; i++) {
-            for (int j = 0; j <nonBingoArray.length; j++) {
-                System.out.print(nonBingoArray[i][j] + " ");
-                String withoutSpaces = nonBingoArray[i][j].replace(" ","");
-                sum+=Integer.valueOf(withoutSpaces);
+        for (String[] strings : nonBingoArray) {
+            for (int j = 0; j < nonBingoArray.length; j++) {
+                System.out.print(strings[j] + " ");
+                String withoutSpaces = strings[j].replace(" ", "");
+                sum += Integer.parseInt(withoutSpaces);
             }
         }
         System.out.println();
         System.out.println("Sum non-bingo numbers: " + sum);
         System.out.println("Last bingo number: " + lastNumber);
-        System.out.println("Winning number! (Sum * Last bingo number): " + sum * Integer.valueOf(lastNumber));
+        System.out.println("Winning number! (Sum * Last bingo number): " + sum * Integer.parseInt(lastNumber));
     }
     public static void main(String[] args) throws FileNotFoundException {
         Day4 advent = new Day4();
